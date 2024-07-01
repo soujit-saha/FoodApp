@@ -9,6 +9,7 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {videos} from '../../utils/variables';
@@ -23,6 +24,9 @@ import Modal from 'react-native-modal';
 
 const Feed = () => {
   const [count, setCount] = useState(0);
+  const [sort, setSort] = useState(0);
+  const [mode, setMode] = useState(0);
+  const [type, setType] = useState(0);
   const [modalVis, setModalVis] = useState(false);
   const data = [
     {
@@ -59,12 +63,7 @@ const Feed = () => {
     const [show, setShow] = useState(false);
     return (
       <View style={styles.main}>
-        {/* <FlatList
-          data={item.videos}
-          horizontal
-          renderItem={({item, index}) => {
-            return ( */}
-        <Video
+        {/* <Video
           source={item.videos[0]}
           ref={videoRef}
           onBuffer={onBuffer}
@@ -75,9 +74,6 @@ const Feed = () => {
           repeat
           paused={true}
           style={styles.backgroundVideo}
-        />
-        {/* );
-          }}
         /> */}
 
         <View style={styles.faj}>
@@ -86,7 +82,9 @@ const Feed = () => {
             onPress={() => setModalVis(!modalVis)}>
             <Image source={ICONS.filter} style={styles.icon18} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.headerLoc}>
+          <TouchableOpacity
+            style={styles.headerLoc}
+            onPress={() => navigate('RestaurantDetails')}>
             <Image source={ICONS.demo} style={styles.shopIcon} />
             <Text
               style={{
@@ -100,7 +98,9 @@ const Feed = () => {
               3.0 Km
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.headIcon}>
+          <TouchableOpacity
+            style={styles.headIcon}
+            onPress={() => navigate('Search')}>
             <Image source={ICONS.Search} style={styles.icon18} />
           </TouchableOpacity>
         </View>
@@ -240,24 +240,40 @@ const Feed = () => {
         // renderItem={() => RenderItem()}
       />
       <Modal isVisible={modalVis} onBackdropPress={() => setModalVis(false)}>
-        {/* <View style={{backgroundColor: COLORS.White}}> */}
         <View
           style={{
             width: '90%',
             backgroundColor: COLORS.White,
             borderTopRightRadius: normalize(5),
             borderTopLeftRadius: normalize(5),
-            padding: normalize(15),
+            paddingHorizontal: normalize(15),
+            paddingTop: normalize(10),
             alignSelf: 'center',
           }}>
+          <View
+            style={{
+              height: normalize(4.5),
+              width: normalize(25),
+              backgroundColor: 'rgba(127, 127, 127, 0.4)',
+              borderRadius: normalize(8),
+              alignSelf: 'center',
+              marginBottom: normalize(5),
+            }}
+          />
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text>Filters</Text>
-            <TouchableOpacity onPress={() => setModalVis(false)}>
+            <Text style={{...GlobalStyles.txtB14}}>Filters</Text>
+            <TouchableOpacity
+              onPress={() => setModalVis(false)}
+              style={{
+                backgroundColor: 'rgba(127, 127, 127, 0.2)',
+                borderRadius: 100,
+                padding: 1,
+              }}>
               <Image
                 source={ICONS.cross}
                 style={{
@@ -269,80 +285,149 @@ const Feed = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <View style={{width: '30%'}}>
-              <Text onPress={() => setCount(0)}>Sort</Text>
-              <Text onPress={() => setCount(1)}>Mode</Text>
-              <Text onPress={() => setCount(2)}>Veg/Non-Veg</Text>
+          <View style={{flexDirection: 'row', marginTop: normalize(16)}}>
+            <View style={{width: '40%'}}>
+              <Text
+                onPress={() => setCount(0)}
+                style={{
+                  ...GlobalStyles.txtM14,
+                  color: count == 0 ? COLORS.Primary : COLORS.TextBlack,
+                }}>
+                Sort
+              </Text>
+              <Text
+                onPress={() => setCount(1)}
+                style={{
+                  ...GlobalStyles.txtM14,
+                  marginTop: normalize(25),
+                  color: count == 1 ? COLORS.Primary : COLORS.TextBlack,
+                }}>
+                Mode
+              </Text>
+              <Text
+                onPress={() => setCount(2)}
+                style={{
+                  ...GlobalStyles.txtM14,
+                  marginTop: normalize(25),
+                  color: count == 2 ? COLORS.Primary : COLORS.TextBlack,
+                }}>
+                Veg/Non-Veg
+              </Text>
             </View>
             <View
               style={{
-                width: '70%',
+                width: '60%',
                 borderLeftWidth: normalize(1),
-                borderColor: COLORS.black,
+                borderColor: COLORS.Black,
+                paddingLeft: normalize(10),
               }}>
               {count == 0 ? (
                 <View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() => setSort(0)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {sort == 0 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Relevance</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Relevance</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSort(1)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {sort == 1 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Delivery Time</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Delivery Time</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSort(2)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {sort == 2 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Rating</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Rating</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSort(3)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {sort == 3 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Cost :Low to High</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Cost :Low to High</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSort(4)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {sort == 4 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Cost :High to Low</Text>
-                  </View>
+                    <Text style={GlobalStyles.txtM14}>Cost :High to Low</Text>
+                  </TouchableOpacity>
                 </View>
               ) : count == 1 ? (
                 <View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() => setMode(0)}
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {mode == 0 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Veg</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Veg</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setMode(1)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {mode == 1 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Non-Veg</Text>
-                  </View>
+                    <Text style={GlobalStyles.txtM14}>Non-Veg</Text>
+                  </TouchableOpacity>
                 </View>
               ) : (
                 <View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() => setType(0)}
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {type == 0 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Dine in</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={GlobalStyles.txtM14}>Dine in</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setType(1)}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: normalize(25),
+                    }}>
                     <View style={styles.radioCon}>
-                      <View style={styles.radioDot} />
+                      {type == 1 && <View style={styles.radioDot} />}
                     </View>
-                    <Text>Home Delivery</Text>
-                  </View>
+                    <Text style={GlobalStyles.txtM14}>Home Delivery</Text>
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
@@ -354,14 +439,28 @@ const Feed = () => {
               alignItems: 'center',
               width: '100%',
               justifyContent: 'center',
+              marginTop: normalize(50),
+              marginBottom: normalize(18),
             }}>
-            <Text>Cancel</Text>
-            <TouchableOpacity>
-              <Text>Apply</Text>
+            <Text
+              onPress={() => setModalVis(false)}
+              style={{...GlobalStyles.txtR13}}>
+              Cancel
+            </Text>
+            <TouchableOpacity
+              style={{
+                backgroundColor: COLORS.Primary,
+                paddingVertical: normalize(8),
+                paddingHorizontal: normalize(28),
+                borderRadius: normalize(8),
+                marginLeft: normalize(10),
+              }}>
+              <Text style={{...GlobalStyles.txtM13, color: COLORS.White}}>
+                Apply
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-        {/* </View> */}
       </Modal>
     </View>
   );
@@ -437,5 +536,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: normalize(8),
     marginRight: normalize(4),
+  },
+  radioCon: {
+    height: normalize(15),
+    width: normalize(15),
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: COLORS.Black,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: normalize(5),
+  },
+  radioDot: {
+    height: normalize(9),
+    width: normalize(9),
+    borderRadius: 100,
+    backgroundColor: COLORS.Primary,
   },
 });

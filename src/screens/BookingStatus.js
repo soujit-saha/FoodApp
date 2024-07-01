@@ -48,8 +48,8 @@ const BookingStatus = () => {
 
         <BorderButton
           title={'Back to home'}
-          // onPress={() => navigate('Search')}
-          onPress={() => navigate('FavoritedItems')}
+          onPress={() => navigate('Search')}
+          // onPress={() => navigate('FavoritedItems')}
         />
 
         <View

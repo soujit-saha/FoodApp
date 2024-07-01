@@ -9,18 +9,46 @@ import BookingStatus from '../screens/BookingStatus';
 import Onboarding from '../screens/Auth/Onboarding';
 import Search from '../screens/Main/Search';
 import FavoritedItems from '../screens/Main/FavoritedItems';
+import RestaurantDetails from '../screens/Main/RestaurantDetails';
+import Checkout from '../screens/Main/Checkout';
+import FoodItem from '../screens/Main/FoodItem';
+import History from '../screens/Main/History';
+import OrderDetails from '../screens/Main/OrderDetails';
+import TrackOrder from '../screens/Main/TrackOrder';
+import Splash from '../screens/Auth/Splash';
+import Login from '../screens/Auth/Login';
+import ProfileSetup from '../screens/Auth/ProfileSetup';
+import Otp from '../screens/Auth/Otp';
+import PopularCuisines from '../screens/Main/PopularCuisines';
+import UpdateProfile from '../screens/Main/UpdateProfile';
+import SavedPlaces from '../screens/Main/SavedPlaces';
+import HelpCenter from '../screens/Main/HelpCenter';
 
 const Stack = createStackNavigator();
 
 export default function StackNav() {
   const Screens = {
+    // Splash,
+    // Onboarding,
+    // Login,
+    // Otp,
+    // ProfileSetup,
     BottomTab,
     RestuarantProfile,
     BookTable,
     BookingStatus,
-    Onboarding,
     Search,
     FavoritedItems,
+    RestaurantDetails,
+    FoodItem,
+    Checkout,
+    History,
+    OrderDetails,
+    TrackOrder,
+    PopularCuisines,
+    UpdateProfile,
+    HelpCenter,
+    SavedPlaces,
   };
 
   return (

@@ -108,7 +108,7 @@ const RestuarantProfile = () => {
 
             <TouchableOpacity>
               <Image
-                source={ICONS.bookmark}
+                source={ICONS.heart}
                 style={{
                   height: normalize(20),
                   width: normalize(20),

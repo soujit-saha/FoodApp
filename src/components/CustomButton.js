@@ -1,11 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import {COLORS} from '../utils/Theme';
+import normalize from '../utils/normalize';
+import {GlobalStyles} from '../GlobalStyles/GlobalStyles';
 
-const CustomButton = () => {
+const CustomButton = ({onPress, title}) => {
   return (
-    <View>
-      <Text>CustomButton</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => onPress()}
+      style={{
+        width: '100%',
+        height: normalize(40),
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: normalize(8),
+        backgroundColor: COLORS.Primary,
+      }}>
+      <Text style={{...GlobalStyles.txtM13, color: COLORS.White}}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 

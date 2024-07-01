@@ -7,7 +7,12 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
+import normalize from '../../utils/normalize';
+import {COLORS, FONTS, IMAGES} from '../../utils/Theme';
+import {GlobalStyles} from '../../GlobalStyles/GlobalStyles';
+import {navigate} from '../../utils/RootNavigation';
 
 const {width} = Dimensions.get('window');
 
@@ -17,9 +22,10 @@ const Onboarding = () => {
 
   // Data for onboarding screens
   const onboardingData = [
-    {id: '1', title: 'Welcome to App', description: 'This is screen 1'},
-    {id: '2', title: 'Features', description: 'This is screen 2'},
-    {id: '3', title: 'Get Started', description: 'This is screen 3'},
+    {id: '1', txt: 'Discover', img: IMAGES.Onboardingone},
+    {id: '2', txt: 'Feel', img: IMAGES.Onboardingtwo},
+    {id: '3', txt: 'Top Brands', img: IMAGES.Onboardingthree},
+    {id: '4', txt: '10000+ Restaurants', img: IMAGES.Onboardingfour},
   ];
 
   // Auto-scroll functionality
@@ -54,8 +60,17 @@ const Onboarding = () => {
   // Render item function for FlatList
   const renderItem = ({item}) => (
     <View style={styles.slide}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={{...GlobalStyles.txtB18, marginVertical: normalize(20)}}>
+        {item.txt}
+      </Text>
+      <Image
+        source={item.img}
+        style={{
+          height: normalize(400),
+          width: normalize(200),
+          resizeMode: 'contain',
+        }}
+      />
     </View>
   );
 
@@ -66,7 +81,12 @@ const Onboarding = () => {
         key={index}
         style={[
           styles.indicator,
-          {backgroundColor: index === currentIndex ? '#007AFF' : '#C4C4C4'},
+          {
+            backgroundColor:
+              index === currentIndex
+                ? COLORS.Primary
+                : 'rgba(250, 98, 15, 0.2)',
+          },
         ]}
         onPress={() => {
           flatListRef.current.scrollToIndex({animated: true, index});
@@ -77,7 +97,11 @@ const Onboarding = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: COLORS.Background}}>
+      {/* Indicators */}
+      <View style={styles.indicatorContainer}>
+        {onboardingData.map((item, index) => renderIndicator({index}))}
+      </View>
       {/* FlatList for onboarding screens */}
       <FlatList
         ref={flatListRef}
@@ -93,9 +117,41 @@ const Onboarding = () => {
           setCurrentIndex(index);
         }}
       />
-
+      <View
+        style={{
+          ...GlobalStyles.faj,
+          margin: normalize(15),
+        }}>
+        <TouchableOpacity
+          onPress={() => navigate('Login')}
+          style={{
+            width: '48%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: normalize(40),
+            borderRadius: normalize(8),
+            borderWidth: normalize(1),
+            borderColor: COLORS.Primary,
+          }}>
+          <Text style={{...GlobalStyles.txtM13}}>Log in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('Login')}
+          style={{
+            backgroundColor: COLORS.Primary,
+            width: '48%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: normalize(40),
+            borderRadius: normalize(8),
+          }}>
+          <Text style={{...GlobalStyles.txtM13, color: COLORS.White}}>
+            Sign up
+          </Text>
+        </TouchableOpacity>
+      </View>
       {/* Manual navigation buttons */}
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         <Button
           title="Prev"
           disabled={currentIndex === 0}
@@ -106,12 +162,7 @@ const Onboarding = () => {
           disabled={currentIndex === onboardingData.length - 1}
           onPress={scrollToNext}
         />
-      </View>
-
-      {/* Indicators */}
-      <View style={styles.indicatorContainer}>
-        {onboardingData.map((item, index) => renderIndicator({index}))}
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -143,13 +194,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: normalize(15),
   },
   indicator: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginHorizontal: 5,
+    width: '22%',
+    height: normalize(4),
+    borderRadius: 99,
+    marginHorizontal: normalize(2),
   },
 });
 
